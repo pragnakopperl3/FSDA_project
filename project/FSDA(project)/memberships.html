@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelia - Exclusive Memberships</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --silver: #C0C0C0;
+            --platinum: #E5E4E2;
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+        }
+        body {
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg); color: white;
+        }
+        /* Navbar */
+        nav {
+            background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px);
+            padding: 1.5rem 5%; position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .logo { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 2rem; margin: 0; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 2rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a.active { color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 5px; }
+
+        /* Header */
+        header { text-align: center; padding: 6rem 1rem; background: linear-gradient(to bottom, transparent, var(--dark-bg)), url('https://images.unsplash.com/photo-1542314831-c6a4d14d8376?q=80&w=2000&auto=format&fit=crop') center/cover; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--gold); margin: 0 0 1rem 0; }
+        header p { font-weight: 300; letter-spacing: 2px; font-size: 1.1rem; color: #ddd; max-width: 600px; margin: 0 auto;}
+
+        /* Memberships Container */
+        .memberships-container {
+            padding: 5rem 5%; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; box-sizing: border-box;
+        }
+
+        .tier-card {
+            background: var(--card-bg); border-radius: 12px;
+            width: 330px; padding: 3rem 2rem; position: relative;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .tier-card:hover { transform: translateY(-15px); }
+        
+        /* Silver */
+        .tier-card.silver { border-top: 4px solid var(--silver); }
+        .tier-card.silver h2 { color: var(--silver); }
+        .tier-card.silver .price { color: var(--silver); }
+        
+        /* Gold */
+        .tier-card.gold { border-top: 4px solid var(--gold); transform: scale(1.05); box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.3); }
+        .tier-card.gold:hover { transform: scale(1.05) translateY(-15px); }
+        .tier-card.gold h2 { color: var(--gold); }
+        .tier-card.gold .price { color: var(--gold); }
+
+        /* Platinum */
+        .tier-card.platinum { border-top: 4px solid var(--platinum); }
+        .tier-card.platinum h2 { color: var(--platinum); }
+        .tier-card.platinum .price { color: var(--platinum); }
+
+        .tier-card h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin: 0; }
+        .tier-card .duration { font-size: 0.9rem; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem; }
+        .tier-card .price { font-size: 2.5rem; margin-bottom: 2rem; font-weight: 600; }
+        .tier-card ul { list-style: none; padding: 0; margin: 0 0 2.5rem 0; width: 100%; }
+        .tier-card ul li { padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ccc; font-size: 0.95rem; }
+        .tier-card ul li:last-child { border-bottom: none; }
+
+        .select-btn {
+            background: transparent; border: 1px solid white; color: white; padding: 1rem; width: 100%;
+            text-transform: uppercase; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: 0.3s;
+            margin-top: auto; border-radius: 4px;
+        }
+        .tier-card.silver .select-btn:hover { background: var(--silver); color: black; border-color: var(--silver); }
+        .tier-card.gold .select-btn { background: var(--gold); color: black; border-color: var(--gold); }
+        .tier-card.gold .select-btn:hover { filter: brightness(1.2); }
+        .tier-card.platinum .select-btn:hover { background: var(--platinum); color: black; border-color: var(--platinum); }
+        
+        /* Tier Images */
+        .tier-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            transition: 0.5s ease;
+        }
+        .tier-card:hover .tier-img {
+            transform: scale(1.05);
+            border-color: var(--gold);
+        }
+
+        /* Footer */
+        footer { text-align: center; padding: 3rem; background: #050505; color: #666; font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1 class="logo">Aurelia</h1>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="#" class="active">Memberships</a>
+            <a href="rooms_booking.html">Rooms & Suites</a>
+            <a href="booking_history.html">History</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="logout.html">Logout</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Select Your Privilege</h1>
+        <p>Choose the tier that perfectly aligns with your extraordinary lifestyle and unlock a world of unparalleled service.</p>
+        <div style="margin-top: 2.5rem; background: rgba(0,0,0,0.6); padding: 1.5rem; display: inline-block; border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px;">
+            <label style="font-size: 1.1rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px;">Membership Duration:</label>
+            <select id="durationSelect" onchange="updatePrices()" style="margin-left: 1rem; padding: 0.8rem; background: #111; color: white; border: 1px solid var(--gold); border-radius: 4px; font-size: 1.1rem; outline: none; cursor: pointer;">
+                <option value="1">1 Year</option>
+                <option value="2">2 Years</option>
+                <option value="3">3 Years</option>
+                <option value="4">4 Years</option>
+                <option value="5">5 Years</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="memberships-container">
+        <!-- Silver Tier -->
+        <div class="tier-card silver">
+            <img src="assets/silver_preview.png" alt="Silver Membership" class="tier-img">
+            <h2>Silver</h2>
+            <div class="duration" id="durSilver">2 Years Membership</div>
+            <div class="price" id="priceSilver">₹40,00,000</div>
+            <ul>
+                <li>🏨 Smart Standard Rooms with Ambient Lighting</li>
+                <li>📶 Ultra-Fast Wi-Fi + Cloud Storage Access</li>
+                <li>🎮 In-Room Gaming Console</li>
+                <li>☕ Specialty Coffee & Tea Bar</li>
+                <li>🛎️ 24/7 Virtual Concierge</li>
+            </ul>
+            <button class="select-btn" style="margin-bottom: 0.8rem; border-color: var(--silver); background: var(--silver); color: black;" onclick="window.location.href='payment.html'">💳 Book Silver Membership</button>
+            <button class="select-btn" style="background: transparent; border: 1px solid var(--silver); color: white;" onclick="window.location.href='hotels_collection.html?tier=silver'">🏨 View Available Hotels</button>
+        </div>
+
+        <!-- Gold Tier -->
+        <div class="tier-card gold">
+            <img src="assets/gold_preview.png" alt="Gold Membership" class="tier-img">
+            <h2>Gold</h2>
+            <div class="duration" id="durGold">2 Years Membership</div>
+            <div class="price" id="priceGold">₹70,00,000</div>
+            <ul>
+                <li>🛏️ Deluxe Rooms with Panoramic City Views</li>
+                <li>🍳 Chef-Curated Breakfast Experience</li>
+                <li>🚗 Chauffeur Service for Local Tours</li>
+                <li>🧖 Personalized Spa & Wellness Packages</li>
+                <li>🎟️ Priority Access to Hotel Events</li>
+                <li>💸 Enhanced Booking Discounts</li>
+            </ul>
+            <button class="select-btn" style="margin-bottom: 0.8rem; border-color: var(--gold); background: var(--gold); color: black;" onclick="window.location.href='payment.html'">💳 Book Gold Membership</button>
+            <button class="select-btn" style="background: transparent; border: 1px solid var(--gold); color: white;" onclick="window.location.href='hotels_collection.html?tier=gold'">🏨 View Available Hotels</button>
+        </div>
+
+        <!-- Platinum Tier -->
+        <div class="tier-card platinum">
+            <img src="assets/platinum_preview.png" alt="Platinum Membership" class="tier-img">
+            <h2>Platinum</h2>
+            <div class="duration" id="durPlatinum">2 Years Membership</div>
+            <div class="price" id="pricePlatinum">₹1,00,00,000</div>
+            <ul>
+                <li>🏢 Presidential Suites + Private Butler Service</li>
+                <li>🍽️ Fine Dining with Chef's Table Experience</li>
+                <li>🏊 Rooftop Infinity Pool + Private Cabana</li>
+                <li>🎼 Exclusive Live Music & Entertainment Access</li>
+                <li>🔐 Biometric Personal Safe</li>
+                <li>🛡️ Global Travel Insurance + VIP Lounge Access</li>
+                <li>🚁 Complimentary Helicopter City Tour</li>
+                <li>🏆 Maximum Reward Points + Lifetime Elite Status</li>
+            </ul>
+            <button class="select-btn" style="margin-bottom: 0.8rem; border-color: var(--platinum); background: var(--platinum); color: black;" onclick="window.location.href='payment.html'">💳 Book Platinum Membership</button>
+            <button class="select-btn" style="background: transparent; border: 1px solid var(--platinum); color: white;" onclick="window.location.href='hotels_collection.html?tier=platinum'">🏨 View Available Hotels</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Aurelia Luxury Hotel. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function updatePrices() {
+            const years = parseInt(document.getElementById('durationSelect').value);
+            // Base prices per year: Silver=20L, Gold=35L, Platinum=50L
+            const silverPrice = 2000000 * years;
+            const goldPrice = 3500000 * years;
+            const platinumPrice = 5000000 * years;
+
+            const yearText = years === 1 ? "1 Year Membership" : years + " Years Membership";
+            document.getElementById('durSilver').innerText = yearText;
+            document.getElementById('durGold').innerText = yearText;
+            document.getElementById('durPlatinum').innerText = yearText;
+
+            // Format as India Rupee
+            document.getElementById('priceSilver').innerText = "₹" + silverPrice.toLocaleString('en-IN');
+            document.getElementById('priceGold').innerText = "₹" + goldPrice.toLocaleString('en-IN');
+            document.getElementById('pricePlatinum').innerText = "₹" + platinumPrice.toLocaleString('en-IN');
+        }
+
+        // Initialize prices correctly on load to reflect the default 1 Year option
+        window.addEventListener('DOMContentLoaded', updatePrices);
+    </script>
+</body>
+</html>

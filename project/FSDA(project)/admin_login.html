@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelia - Management Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --platinum: #E5E4E2;
+            --platinum-hover: #ffffff;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(5, 5, 8, 0.95);
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: url('https://images.unsplash.com/photo-1551882547-ff40c0d12c56?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        /* Creating a dark professional overlay over the background for Admin */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.9) 0%, rgba(10,12,20,0.7) 100%);
+            z-index: 1;
+        }
+        .login-container {
+            position: relative;
+            z-index: 2;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 3rem 4rem;
+            border-radius: 12px;
+            border: 1px solid rgba(229, 228, 226, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--platinum);
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+        }
+        p.subtitle {
+            margin-bottom: 2.5rem;
+            color: #8892b0;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: #a8b2d1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus {
+            border-color: var(--platinum);
+            box-shadow: 0 0 10px rgba(229, 228, 226, 0.1);
+        }
+        .btn {
+            background: #1a1e29;
+            color: var(--platinum);
+            border: 1px solid var(--platinum);
+            padding: 1rem;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .btn:hover {
+            background: var(--platinum);
+            color: black;
+            box-shadow: 0 10px 20px rgba(229, 228, 226, 0.2);
+            transform: translateY(-2px);
+        }
+        .links {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+        .links a {
+            color: #8892b0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .links a:hover {
+            color: var(--platinum);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Aurelia</h1>
+        <p class="subtitle">Secure Management Portal</p>
+        <form onsubmit="event.preventDefault(); window.location.href='admin_dashboard.html';">
+            <div class="input-group">
+                <label for="admin_id">Administrator ID</label>
+                <input type="text" id="admin_id" required placeholder="Enter Admin Username">
+            </div>
+            <div class="input-group">
+                <label for="password">System Password</label>
+                <div style="position: relative;">
+                    <input type="password" id="password" required placeholder="••••••••" style="padding-right: 40px;">
+                    <span onclick="const pwd = document.getElementById('password'); if(pwd.type==='password'){pwd.type='text'; this.innerHTML='<svg width=\'20\' height=\'20\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' viewBox=\'0 0 24 24\'><path d=\'M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24\'></path><line x1=\'1\' y1=\'1\' x2=\'23\' y2=\'23\'></line></svg>';}else{pwd.type='password'; this.innerHTML='<svg width=\'20\' height=\'20\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' viewBox=\'0 0 24 24\'><path d=\'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z\'></path><circle cx=\'12\' cy=\'12\' r=\'3\'></circle></svg>';}" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #a8b2d1; display: flex; align-items: center; padding: 5px;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.85rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #a8b2d1;">
+                    <input type="checkbox" id="rememberAdmin"> Remember Me
+                </label>
+                <a href="forgot_password.html" style="color: var(--platinum); text-decoration: none;">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn">Authenticate</button>
+        </form>
+        <div class="links">
+            <a href="user_login.html">← Return to Guest Portal</a>
+        </div>
+    </div>
+</body>
+</html>

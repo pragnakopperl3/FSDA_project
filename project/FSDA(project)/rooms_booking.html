@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelia - Booking & Rooms</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+        }
+        /* Navbar */
+        nav {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 2rem;
+            margin: 0;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a.active { color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 5px; }
+
+        /* Hero */
+        header {
+            text-align: center;
+            padding: 6rem 1rem;
+            background: linear-gradient(to bottom, transparent, var(--dark-bg)), url('https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2000&auto=format&fit=crop') center/cover;
+        }
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            margin: 0 0 1rem 0;
+        }
+        header p {
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            color: #ddd;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 2rem 5%;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
+        }
+        .filter-section input, .filter-section select {
+            padding: 0.8rem 1rem;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(212,175,55,0.3);
+            color: white;
+            border-radius: 4px;
+            font-family: 'Inter';
+            outline: none;
+        }
+        .filter-section input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        /* Rooms Grid */
+        .rooms-container {
+            padding: 4rem 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+        .room-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .room-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        .room-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--gold);
+        }
+        .room-info {
+            padding: 2rem 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .room-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin: 0 0 0.5rem 0;
+            color: white;
+        }
+        .room-facilities {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 1.5rem;
+        }
+        .room-price {
+            font-size: 1.5rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-top: auto;
+            margin-bottom: 1rem;
+        }
+        .room-price span {
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: 300;
+        }
+        .book-btn {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 0.8rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+        .book-btn:hover {
+            background: var(--gold);
+            color: black;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            background: #050505;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1 class="logo">Aurelia</h1>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="memberships.html">Memberships</a>
+            <a href="#" class="active">Rooms & Suites</a>
+            <a href="booking_history.html">History</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="logout.html" style="display: flex; align-items: center; gap: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Logout
+            </a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Unparalleled Luxury</h1>
+        <p>Discover our signature rooms and select your escape</p>
+    </header>
+
+    <div class="filter-section">
+        <input type="date" title="Check-in Date">
+        <input type="date" title="Check-out Date">
+        <select>
+            <option>1 Guest</option>
+            <option>2 Guests</option>
+            <option>3 Guests</option>
+            <option>4+ Guests</option>
+        </select>
+        <button class="book-btn" style="background: var(--gold); color: black;">Check Availability</button>
+    </div>
+
+    <div class="rooms-container" id="roomsGrid">
+        <!-- JS will populate exactly 16 room cards here -->
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Aurelia Luxury Hotel. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Data for 16 beautiful room selections
+        const roomData = [
+            { title: "Grand Ocean Suite", price: "₹25,400", img: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&auto=format&fit=crop" },
+            { title: "Executive Penthouse", price: "₹50,200", img: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&auto=format&fit=crop" },
+            { title: "Classic King Room", price: "₹5,600", img: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&auto=format&fit=crop" },
+            { title: "Luxury Horizon Suite", price: "₹15,100", img: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&auto=format&fit=crop" },
+            { title: "Premium Family Suite", price: "₹10,500", img: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&auto=format&fit=crop" },
+            { title: "Panoramic Sky Villa", price: "₹35,000", img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&auto=format&fit=crop" },
+            { title: "Standard Queen Edge", price: "₹3,900", img: "https://images.unsplash.com/photo-1596394511913-c7a42b9d2a0e?w=600&auto=format&fit=crop" },
+            { title: "The Imperial Suite", price: "₹65,000", img: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop" },
+            { title: "Garden View Retreat", price: "₹8,000", img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&auto=format&fit=crop" },
+            { title: "Modernist Loft", price: "₹12,400", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=600&auto=format&fit=crop" },
+            { title: "Boutique Oasis", price: "₹9,500", img: "https://images.unsplash.com/photo-1598928506311-c55dd58c2460?w=600&auto=format&fit=crop" },
+            { title: "Royal Corner Room", price: "₹18,000", img: "https://images.unsplash.com/photo-1594560913095-8cf34bab82db?w=600&auto=format&fit=crop" },
+            { title: "Crystal Studio Master", price: "₹7,200", img: "https://images.unsplash.com/photo-1618773928120-2e15dc9c6978?w=600&auto=format&fit=crop" },
+            { title: "Presidential Chalet", price: "₹45,000", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&auto=format&fit=crop" },
+            { title: "Ambassador Suite", price: "₹28,600", img: "https://images.unsplash.com/photo-1592229505726-ca121723b8ef?w=600&auto=format&fit=crop" },
+            { title: "Sapphire Water Suite", price: "₹32,000", img: "https://images.unsplash.com/photo-1596436889106-be35e843f974?w=600&auto=format&fit=crop" },
+            { title: "Mountain Peak Chalet", price: "₹21,500", img: "https://images.unsplash.com/photo-1519999482648-25049ddd37b1?w=600&auto=format&fit=crop" },
+            { title: "Downtown Studio", price: "₹6,800", img: "https://images.unsplash.com/photo-1598928636135-d146006ff4be?w=600&auto=format&fit=crop" },
+            { title: "Sunset Pool Villa", price: "₹42,000", img: "https://images.unsplash.com/photo-1560662105-57f8ad6fa545?w=600&auto=format&fit=crop" },
+            { title: "Emerald Garden Suite", price: "₹19,000", img: "https://images.unsplash.com/photo-1574643030364-e29f37c3dafa?w=600&auto=format&fit=crop" },
+            { title: "Gold Class Penthouse", price: "₹85,000", img: "https://images.unsplash.com/photo-1600109040974-9b2f6fbf0387?w=600&auto=format&fit=crop" },
+            { title: "Serene Lakeview Room", price: "₹14,500", img: "https://images.unsplash.com/photo-1616486022830-df4f0612c98d?w=600&auto=format&fit=crop" },
+            { title: "Honeymoon Spa Villa", price: "₹38,000", img: "https://images.unsplash.com/photo-1549488344-9f44ce2fde06?w=600&auto=format&fit=crop" },
+            { title: "Royal Crown Estate", price: "₹110,000", img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&auto=format&fit=crop" }
+        ];
+
+        const validImages = [
+            "1566073771259-6a8506099945", "1520250497591-112f2f40a3f4", "1480074568708-e7b720bb3f09",
+            "1561501900-3701fa6a0864", "1582719478250-c89cae4dc85b", "1540544660406-6a69dacb2804",
+            "1564013799919-ab600027ffc6", "1521783988139-89397d761dce", "1533759413974-9e15f3b745ac",
+            "1518733057094-95b53143d2a7", "1578683010236-d716f9a3f461", "1590490360182-c33d57733427",
+            "1566665797739-1674de7a421a", "1611892440504-42a792e24d32", "1631049307264-da0ec9d70304",
+            "1505691938895-1758d7feb511", "1584622650111-993a426fbf0a", "1592229505726-ca121723b8ef",
+            "1596436889106-be35e843f974", "1519999482648-25049ddd37b1"
+        ];
+
+        const grid = document.getElementById('roomsGrid');
+
+        roomData.forEach((room, index) => {
+            const imgId = validImages[index % validImages.length];
+            const card = document.createElement('div');
+            card.className = 'room-card';
+            
+            card.innerHTML = `
+                <img src="https://images.unsplash.com/photo-${imgId}?w=600&auto=format&fit=crop" alt="${room.title}" class="room-img" loading="lazy">
+                <div class="room-info">
+                    <h3>${room.title}</h3>
+                    <div class="room-facilities">
+                        King Bed • Ocean View • Free WiFi • Minibar • Spa Access
+                    </div>
+                    <div class="room-price">${room.price} <span>/ night</span></div>
+                    <button class="book-btn" onclick="saveBookingAndPay('${room.title}', '${room.price}', '${imgId}')">Book Now</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        function saveBookingAndPay(title, price, imgId) {
+            const booking = {
+                title: title,
+                price: price,
+                img: `https://images.unsplash.com/photo-${imgId}?w=600&auto=format&fit=crop`,
+                date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                status: 'Confirmed Placement'
+            };
+            localStorage.setItem('pendingBooking', JSON.stringify(booking));
+            window.location.href = 'payment.html';
+        }
+    </script>
+</body>
+</html>

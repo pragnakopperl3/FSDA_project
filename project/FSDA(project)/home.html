@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelia - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #D4AF37; --dark-bg: #050505; }
+        body {
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1542314831-c6a4d14d8376?q=80&w=2000&auto=format&fit=crop') no-repeat center fixed;
+            background-size: cover; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center;
+        }
+        h1 { font-family: 'Playfair Display', serif; font-size: 6rem; color: var(--gold); margin: 0; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        .subtitle { font-size: 1.2rem; letter-spacing: 4px; font-weight: 300; margin-bottom: 3rem; text-transform: uppercase; color: #E5E4E2;}
+        .btn { padding: 1.2rem 3rem; background: var(--gold); color: black; text-decoration: none; font-weight: 600; text-transform: uppercase; border-radius: 4px; transition: 0.3s; letter-spacing: 1px; }
+        .btn:hover { background: white; transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+    <div class="subtitle">Welcome to the Epitome of Luxury</div>
+    <h1>Aurelia</h1>
+    <div style="display: flex; gap: 1.5rem; justify-content: center;">
+        <a href="memberships.html" class="btn" style="background: var(--gold); color: black;">View Membership Plans</a>
+    </div>
+</body>
+</html>

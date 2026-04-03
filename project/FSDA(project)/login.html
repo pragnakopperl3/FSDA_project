@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelia - Select Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark-bg: #050505;
+        }
+        body {
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center;
+        }
+        .container {
+            background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px);
+            padding: 4rem 5rem; border-radius: 12px; border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9); animation: fadeIn 0.8s ease-out;
+            max-width: 600px; width: 100%;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; color: var(--gold); margin: 0; margin-bottom: 0.5rem; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        .subtitle { font-size: 1.1rem; letter-spacing: 5px; font-weight: 300; margin-bottom: 3.5rem; text-transform: uppercase; color: #ccc;}
+        
+        .btn-container {
+            display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+        }
+        
+        .portal-card {
+            flex: 1; min-width: 200px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem 1.5rem; border-radius: 8px; cursor: pointer;
+            transition: all 0.4s ease; text-decoration: none; color: white;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        
+        .portal-card:hover {
+            background: rgba(212, 175, 55, 0.1); border-color: var(--gold);
+            transform: translateY(-10px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
+        }
+        
+        .portal-card svg {
+            width: 50px; height: 50px; margin-bottom: 1.5rem; color: var(--gold); transition: transform 0.4s;
+        }
+        .portal-card:hover svg { transform: scale(1.1); }
+        
+        .portal-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0 0 0.5rem 0; color: white; letter-spacing: 1px; }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Aurelia</h1>
+        <div class="subtitle">Secure Access Portal</div>
+        
+        <div class="btn-container">
+            <a href="user_login.html" class="portal-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <h3>User Login</h3>
+            </a>
+            
+            <a href="admin_login.html" class="portal-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <h3>Admin Login</h3>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
